@@ -1,0 +1,36 @@
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize, sent_tokenize
+
+nltk.download('punkt')
+nltk.download('stopwords')
+
+# Sample job description and keywords
+job_description = "We are looking for a software engineer with experience in Python, Django, and web development."
+
+# Keywords related to the job description
+job_keywords = set(["software engineer", "Python", "Django", "web development"])
+
+# Sample list of resumes
+resumes = [
+    "I am a software engineer with experience in Python and web development.",
+    "Experienced web developer proficient in Django and Python.",
+    "A Java developer interested in learning new technologies.",
+]
+
+# Function to match keywords in a document
+def match_keywords(document, keywords):
+    tokens = word_tokenize(document.lower())
+    filtered_tokens = [word for word in tokens if word not in stopwords.words('english')]
+    matched_keywords = [keyword for keyword in keywords if keyword.lower() in filtered_tokens]
+    return matched_keywords
+
+# Loop through resumes and match against job description
+for i, resume in enumerate(resumes):
+    matched_keywords = match_keywords(resume, job_keywords)
+    if matched_keywords:
+        print(f"Resume {i+1} matched keywords: {', '.join(matched_keywords)}")
+        print(f"Resume Text: {resume}\n")
+    else:
+        print(f"Resume {i+1} did not match keywords.\n")
+
